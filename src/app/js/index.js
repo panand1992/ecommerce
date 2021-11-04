@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import Customrouter from "./router.jsx";
-import reducer from './reducers/home';
-import appSaga from './sagas/home';
+import reducer from './reducers/app';
+import appSaga from './sagas/app';
 import "../styles/app.scss";
 
 const sagaMiddleware = createSagaMiddleware();
