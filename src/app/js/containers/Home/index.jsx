@@ -1,75 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { getLoginState } from './../../selectors/app';
-import { userLogin as userLoginRequest } from './../../actions/app';
+import Header from '../../components/Common/Header.jsx';
+import CategoryList from '../../components/Home/CategoryList.jsx';
+import LoginWrapper from '../../components/Home/LoginWrapper.jsx';
+import { getLoginState, getUsername, getAuthErrorMsg, getCategoryList } from './../../selectors/app';
+import { login as loginRequest, signup as signupRequest, logout as logoutRequest,
+	fetchCategories as fetchCategoriesRequest } from './../../actions/app';
+import "../../../styles/home.scss";
 
 function Home(props) {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-
-	const loginFn = () => {
-		const { login } = props;
-
-		if (username === "") {
-			alert("email empty");
-		} else if (password === "") {
-			alert("password empty");
-		} else {
-			const data = {
-				username: username,
-				password: password
-			};
-
-			login(data);
-		}
-	}
-
-	const updateUsername = (e) => {
-		setUsername(e.target.value);
-	}
-
-	const updatePassword = (e) => {
-		setPassword(e.target.value);
-	}
+	const { login, signup, isLoggedIn, username, authErrorMsg, logout, fetchCategories, categoryList } = props;
 
 	return (
 		<div id="homePage">
+			<Header
+				username={username}
+				isLoggedIn={isLoggedIn}
+				logout={logout}
+			/>
 			<div className="container">
 				<div className="row">
-					<div className="loginWrapper">
-						<h2 className="text-center">Welcome to Ecommerce</h2>
-						<h4 className="text-center">Login</h4>
-						<div className="form-group">
-							<input
-								type="text"
-								className="form-control"
-								placeholder="Username"
-								id="loginUsername"
-								value={username}
-								onChange={updateUsername}
+					<h2 className="home-title text-center">Welcome to Ecommerce</h2>
+					{
+						isLoggedIn ? (
+							<CategoryList
+								fetchCategories={fetchCategories}
+								categoryList={categoryList}
 							/>
-						</div>
-						<div className="form-group">
-							<input
-								type="password"
-								className="form-control"
-								placeholder="Password"
-								id="loginPwd"
-								value={password}
-								onChange={updatePassword}
+						) : (
+							<LoginWrapper
+								login={login}
+								signup={signup}
+								authErrorMsg={authErrorMsg}
 							/>
-						</div>
-						<div className="form-group">
-							<input
-								type="submit"
-								className="form-control"
-								value="Log in"
-								onClick={loginFn}
-							/>
-						</div>
-					</div>
+						)
+					}
 				</div>
 			</div>
 		</div>
@@ -77,11 +44,17 @@ function Home(props) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	userLogin: (data) => dispatch(userLoginRequest(data))
+	login: (data) => dispatch(loginRequest(data)),
+	signup: (data) => dispatch(signupRequest(data)),
+	logout: () => dispatch(logoutRequest()),
+	fetchCategories: () => dispatch(fetchCategoriesRequest())
 });
 
 const mapStateToProps = createStructuredSelector({
-	isLoggedIn: getLoginState()
+	isLoggedIn: getLoginState(),
+	username: getUsername(),
+	authErrorMsg: getAuthErrorMsg(),
+	categoryList: getCategoryList()
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

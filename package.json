@@ -10,6 +10,12 @@
     "lintSource": "eslint src",
     "lintRoot": "eslint *.js"
   },
+  // "pre-commit": [
+  //   "lintRoutes",
+  //   "lintServices",
+  //   "lintSource",
+  //   "lintRoot"
+  // ],
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
@@ -26,6 +32,7 @@
     "immutable": "^4.0.0",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -40,6 +47,7 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^8.1.0",
+    "pre-commit": "^1.2.2",
     "webpack-cli": "^4.9.1"
   }
 }
