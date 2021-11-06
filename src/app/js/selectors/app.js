@@ -32,3 +32,5 @@ export const getConfirmPaymentLoading = () => createSelector(selectApp, (appStat
 export const getConfirmPaymentErrorMsg = () => createSelector(selectApp, (appState) => appState.get('confirmPaymentErrorMsg'));
 
 export const getConfirmPaymentSuccess = () => createSelector(selectApp, (appState) => appState.get('confirmPaymentSuccess'));
+
+export const getVendorPayments = () => createSelector(selectApp, (appState) => appState.get('vendorPayments').toJS());

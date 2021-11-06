@@ -16,7 +16,8 @@ import {
 	SET_ORDER_DETAILS,
 	SET_CONFIRM_PAYMENT_LOADING,
 	SET_CONFIRM_PAYMENT_SUCCESS,
-	SET_CONFIRM_PAYMENT_ERROR_MSG
+	SET_CONFIRM_PAYMENT_ERROR_MSG,
+	SET_VENDOR_PAYMENTS
 } from './../constants/app';
 
 const initialState = fromJS({
@@ -35,6 +36,7 @@ const initialState = fromJS({
 	confirmPaymentLoading: false,
 	confirmPaymentSuccess: false,
 	confirmPaymentErrorMsg: '',
+	vendorPayments: []
 });
 
 const AppReducer = (state = initialState, action) => {
@@ -84,6 +86,9 @@ const AppReducer = (state = initialState, action) => {
 		case SET_CONFIRM_PAYMENT_ERROR_MSG:
 			return state
 				.set('confirmPaymentErrorMsg', fromJS(action.data));
+		case SET_VENDOR_PAYMENTS:
+			return state
+				.set('vendorPayments', fromJS(action.data));
 		default:
 			return state;
 	}

@@ -1,7 +1,6 @@
 import { USER_LOGIN, USER_SIGNUP, SET_LOGIN_STATE, FETCH_CATEGORIES, FETCH_PRODUCTS,
 	FETCH_PRODUCT_DETAILS, FETCH_VENDOR_DETAILS, ADD_PRODUCT, SET_AUTH_ERROR_MSG, ADD_TO_CART,
-	FETCH_ORDER_DETAILS, 
-	EDIT_ORDER} from './../constants/app';
+	FETCH_ORDER_DETAILS, EDIT_ORDER, FETCH_VENDOR_PAYMENTS} from './../constants/app';
 
 export const login = (data) => ({
 	type: USER_LOGIN,
@@ -59,5 +58,10 @@ export const fetchOrderDetails = (data) => ({
 
 export const editOrder = (data) => ({
 	type: EDIT_ORDER,
+	data
+});
+
+export const fetchVendorPayments = (data) => ({
+	type: FETCH_VENDOR_PAYMENTS,
 	data
 });

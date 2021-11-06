@@ -1,0 +1,66 @@
+#vendorPaymentsPage {
+    .vendor-payments-wrapper {
+        display: flex;
+        flex-direction: row;
+        .vendor-payments-box {
+            display: flex;
+            flex-direction: column;
+            flex: 38;
+            padding: 50px;
+            .vendor-payments-title {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+            .no-payments-found {
+                font-size: 20px;
+            }
+            .vendor-payments-item {
+                margin-top: 20px;
+                box-shadow: 0px 1px 5px #ccc;
+                border-radius: 10px;
+                padding: 20px;
+                .vendor-payments-item-title {
+                    font-size: 18px;
+                }
+                .vendor-payments-item-products {
+                    margin-top: 20px;
+                    .vendor-payments-item-product {
+                        display: flex;
+                        flex-direction: row;
+                        padding-bottom: 20px;
+                        border-bottom: 1px solid #ccc;
+                        .vendor-payments-item-product-img {
+                            flex: 1;
+                            margin-right: 40px;
+                            img {
+                                max-width: 100%;
+                            }
+                        }
+                        .vendor-payments-item-product-details {
+                            display: flex;
+                            flex-direction: column;
+                            flex: 2;
+
+                            .vendor-payments-item-product-name {
+                                font-size: 16px;
+                                margin-bottom: 5px;
+                            }
+                            .vendor-payments-item-product-price {
+                                font-size: 16px;
+                                font-weight: bold;
+                                margin-bottom: 5px;
+                            }
+                            .vendor-payments-item-product-quantity {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+                .vendor-payments-item-total {
+                    font-size: 16px;
+                    padding-top: 20px;
+                }
+            }
+        }
+    }
+}

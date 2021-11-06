@@ -1,14 +1,15 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const Home = lazy(() => import("./containers/Home/index.jsx"));
-const ProductList = lazy(() => import("./containers/ProductList/index.jsx"));
-const VendorHome = lazy(() => import("./containers/VendorHome/index.jsx"));
-const VendorDetails = lazy(() => import("./containers/VendorDetails/index.jsx"));
-const ProductDetails = lazy(() => import("./containers/ProductDetails/index.jsx"));
 const AddProduct = lazy(() => import("./containers/AddProduct/index.jsx"));
 const Cart = lazy(() => import("./containers/Cart/index.jsx"));
 const Checkout = lazy(() => import("./containers/Checkout/index.jsx"));
+const Home = lazy(() => import("./containers/Home/index.jsx"));
+const ProductDetails = lazy(() => import("./containers/ProductDetails/index.jsx"));
+const ProductList = lazy(() => import("./containers/ProductList/index.jsx"));
+const VendorDetails = lazy(() => import("./containers/VendorDetails/index.jsx"));
+const VendorHome = lazy(() => import("./containers/VendorHome/index.jsx"));
+const VendorPayments = lazy(() => import("./containers/VendorPayments/index.jsx"));
 
 function Customrouter() {
 	return (
@@ -25,28 +26,19 @@ function Customrouter() {
 				/>
 				<Route
 					exact
-					path="/vendor"
+					path="/cart"
 					element={
 						<Suspense fallback={<div className="loader"></div>}>
-							<VendorHome />
+							<Cart />
 						</Suspense>
 					}
 				/>
 				<Route
 					exact
-					path="/vendor/details"
+					path="/checkout"
 					element={
 						<Suspense fallback={<div className="loader"></div>}>
-							<VendorDetails />
-						</Suspense>
-					}
-				/>
-				<Route
-					exact
-					path="/vendor/product/add"
-					element={
-						<Suspense fallback={<div className="loader"></div>}>
-							<AddProduct />
+							<Checkout />
 						</Suspense>
 					}
 				/>
@@ -70,19 +62,37 @@ function Customrouter() {
 				/>
 				<Route
 					exact
-					path="/cart"
+					path="/vendor"
 					element={
 						<Suspense fallback={<div className="loader"></div>}>
-							<Cart />
+							<VendorHome />
 						</Suspense>
 					}
 				/>
 				<Route
 					exact
-					path="/checkout"
+					path="/vendor/details"
 					element={
 						<Suspense fallback={<div className="loader"></div>}>
-							<Checkout />
+							<VendorDetails />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/vendor/payments"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<VendorPayments />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/vendor/product/add"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<AddProduct />
 						</Suspense>
 					}
 				/>

@@ -53,5 +53,16 @@ module.exports = {
 		sqlConnection.executeQuery(sql, values, function(err, result) {
 			callback(err, result);
 		});
+	},
+
+	getVendorPayments: function(data, callback) {
+		var sql = "SELECT od.ID AS orderId, od.Total AS total, p.ID AS productId, p.Name AS productName, p.price AS price, "
+			+ "oi.Quantity AS quantity FROM OrderDetails AS od LEFT JOIN OrderItems AS oi ON od.ID = oi.OrderID"
+			+ " LEFT JOIN Products AS p ON p.ID = oi.ProductID WHERE p.VendorID = ? AND od.OrderStatus = 2 LIMIT 1";
+		var values = [];
+        values.push(data.userId);
+		sqlConnection.executeQuery(sql, values, function(err, result) {
+			callback(err, result);
+		});
 	}
 };

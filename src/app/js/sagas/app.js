@@ -4,7 +4,8 @@ import {
 	SET_CATEGORY_LIST, FETCH_PRODUCTS, FETCH_PRODUCT_DETAILS, SET_PRODUCT_LIST, SET_PRODUCT_DETAILS,
 	FETCH_VENDOR_DETAILS, SET_VENDOR_DETAILS, ADD_PRODUCT, SET_ADD_PRODUCT_LOADING,
 	SET_ADD_PRODUCT_SUCCESS, SET_ADD_PRODUCT_ERROR_MSG, ADD_TO_CART, SET_ADD_TO_CART_LOADING,
-	SET_ADD_TO_CART_ERROR_MSG, FETCH_ORDER_DETAILS, SET_ORDER_DETAILS, EDIT_ORDER, SET_CONFIRM_PAYMENT_LOADING, SET_CONFIRM_PAYMENT_SUCCESS, SET_CONFIRM_PAYMENT_ERROR_MSG
+	SET_ADD_TO_CART_ERROR_MSG, FETCH_ORDER_DETAILS, SET_ORDER_DETAILS, EDIT_ORDER, SET_CONFIRM_PAYMENT_LOADING,
+	SET_CONFIRM_PAYMENT_SUCCESS, SET_CONFIRM_PAYMENT_ERROR_MSG, FETCH_VENDOR_PAYMENTS, SET_VENDOR_PAYMENTS
 } from './../constants/app';
 
 function* userLogin(action) {
@@ -275,6 +276,27 @@ function* editOrder(action) {
 	}
 }
 
+function* fetchVendorPayments(action) {
+	const { data } = action;
+	try {
+		const responseBody = yield fetch("/api/v1/user/vendor/payments", {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/json;charset=UTF-8"
+			},
+			body: JSON.stringify(data)
+		});
+		const result = yield responseBody.json();
+		if (result.success) {
+			yield put({ type: SET_VENDOR_PAYMENTS, data: result.vendorPayments });
+		} else {
+			yield put({ type: SET_VENDOR_PAYMENTS, data: [] });
+		}
+	} catch (e) {
+		console.log(e);
+	}
+}
+
 export default function* appSaga() {
 	yield all([yield takeLatest(USER_LOGIN, userLogin)]);
 	yield all([yield takeLatest(USER_SIGNUP, userSignup)]);
@@ -286,4 +308,5 @@ export default function* appSaga() {
 	yield all([yield takeLatest(ADD_TO_CART, addToCart)]);
 	yield all([yield takeLatest(FETCH_ORDER_DETAILS, fetchOrderDetails)]);
 	yield all([yield takeLatest(EDIT_ORDER, editOrder)]);
+	yield all([yield takeLatest(FETCH_VENDOR_PAYMENTS, fetchVendorPayments)]);
 }

@@ -126,5 +126,49 @@ module.exports = {
 	},
 
 	getVendorPayments: function (req, res) {
+		var data = req.body;
+		var responseData = {
+			success: false,
+			msg: "Invalid params for fetching vendor payments"
+		};
+		if (data.userId) {
+			User.getVendorPayments(data, function (err, result) {
+				if (err) {
+					responseData.msg = "Error in fetching vendor payments";
+					return res.status(httpCodes.internalServerError).send(responseData);
+				}
+				responseData.success = true;
+				responseData.msg ="Successfully fetched vendor payments";
+				responseData.vendorPayments = [];
+				result.forEach((item) => {
+					let foundOrder = false;
+					responseData.vendorPayments.forEach((item1) => {
+						if(item1.orderId == item.orderId) {
+							foundOrder = true;
+						}
+					});
+					if(!foundOrder) {
+						const orderObj = {
+							orderId: item.orderId,
+							total: item.total,
+							products: []
+						};
+						result.forEach((item2) => {
+							const productObj = {
+								price: item2.price,
+								name: item2.productName,
+								quantity: item2.quantity,
+								productId: item2.productId
+							};
+							orderObj.products.push(productObj);
+						});
+						responseData.vendorPayments.push(orderObj);
+					}
+				});
+				return res.status(httpCodes.success).send(responseData);
+			});
+		} else {
+			return res.status(httpCodes.badRequest).send(responseData);
+		}
 	}
 };
