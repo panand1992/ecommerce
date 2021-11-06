@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 function CategoryItem(props) {
     const { categoryName, categoryId } = props;
-    console.log(props);
 
     return(
         <div className="category-item">

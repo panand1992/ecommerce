@@ -26,3 +26,9 @@ export const getAddToCartLoading = () => createSelector(selectApp, (appState) =>
 export const getAddToCartErrorMsg = () => createSelector(selectApp, (appState) => appState.get('addToCartErrorMsg'));
 
 export const getOrderDetails = () => createSelector(selectApp, (appState) => appState.get('orderDetails').toJS());
+
+export const getConfirmPaymentLoading = () => createSelector(selectApp, (appState) => appState.get('confirmPaymentLoading'));
+
+export const getConfirmPaymentErrorMsg = () => createSelector(selectApp, (appState) => appState.get('confirmPaymentErrorMsg'));
+
+export const getConfirmPaymentSuccess = () => createSelector(selectApp, (appState) => appState.get('confirmPaymentSuccess'));

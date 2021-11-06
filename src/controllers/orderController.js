@@ -118,60 +118,75 @@ module.exports = {
 			success: false,
 			msg: "Invalid params for updating order details"
 		};
-		if (data.productId && data.orderId && data.quantity && data.userId) {
-			Product.getProductDetails(data, function(err, result){
-				if (err) {
-					responseData.msg = "Error in updating order details";
-					return res.status(httpCodes.internalServerError).send(responseData);
-				}
-				OrderDetail.getOrderDetails(data, function(err1, result1){
-					if (err1) {
+		if(data.payment) {
+			responseData.msg = "Invalid params for confirming payment";
+		}
+		if (data.orderId && data.userId) {
+			if(data.payment) {
+				OrderDetail.editOrder(data, function(err){
+					if (err) {
+						responseData.msg = "Error in confirming payment";
+						return res.status(httpCodes.internalServerError).send(responseData);
+					}
+					responseData.success = true;
+					responseData.msg = "Successfully updated order payment";
+					return res.status(httpCodes.success).send(responseData);
+				});
+			} else {
+				Product.getProductDetails(data, function(err, result){
+					if (err) {
 						responseData.msg = "Error in updating order details";
 						return res.status(httpCodes.internalServerError).send(responseData);
 					}
-					if(data.remove) {
-						OrderItem.deleteOrderItem(data, function(err2){
-							if (err2) {
-								responseData.msg = "Error in updating order details";
-								return res.status(httpCodes.internalServerError).send(responseData);
-							}
-							data.total = result1[0].total - (result[0].price * parseInt(data.quantity, 10));
-							OrderDetail.editOrder(data, function(err3){
-								if (err3) {
+					OrderDetail.getOrderDetails(data, function(err1, result1){
+						if (err1) {
+							responseData.msg = "Error in updating order details";
+							return res.status(httpCodes.internalServerError).send(responseData);
+						}
+						if(data.remove) {
+							OrderItem.deleteOrderItem(data, function(err2){
+								if (err2) {
 									responseData.msg = "Error in updating order details";
 									return res.status(httpCodes.internalServerError).send(responseData);
 								}
-								responseData.success = true;
-								responseData.msg = "Successfully updated order details";
-								return res.status(httpCodes.success).send(responseData);
+								data.total = result1[0].total - (result[0].price * parseInt(data.quantity, 10));
+								OrderDetail.editOrder(data, function(err3){
+									if (err3) {
+										responseData.msg = "Error in updating order details";
+										return res.status(httpCodes.internalServerError).send(responseData);
+									}
+									responseData.success = true;
+									responseData.msg = "Successfully updated order details";
+									return res.status(httpCodes.success).send(responseData);
+								});
 							});
-						});
-					} else {
-						OrderItem.editOrderItem(data, function(err2){
-							if (err2) {
-								responseData.msg = "Error in updating order details";
-								return res.status(httpCodes.internalServerError).send(responseData);
-							}
-							let productTotal = 0
-							result1.forEach((item) => {
-								if(item.productId == data.productId) {
-									productTotal += (item.price * item.quantity);
-								}
-							});
-							data.total = result1[0].total - productTotal + (parseInt(data.quantity, 10) * result[0].price);
-							OrderDetail.editOrder(data, function(err3){
-								if (err3) {
+						} else {
+							OrderItem.editOrderItem(data, function(err2){
+								if (err2) {
 									responseData.msg = "Error in updating order details";
 									return res.status(httpCodes.internalServerError).send(responseData);
 								}
-								responseData.success = true;
-								responseData.msg = "Successfully updated order details";
-								return res.status(httpCodes.success).send(responseData);
+								let productTotal = 0
+								result1.forEach((item) => {
+									if(item.productId == data.productId) {
+										productTotal += (item.price * item.quantity);
+									}
+								});
+								data.total = result1[0].total - productTotal + (parseInt(data.quantity, 10) * result[0].price);
+								OrderDetail.editOrder(data, function(err3){
+									if (err3) {
+										responseData.msg = "Error in updating order details";
+										return res.status(httpCodes.internalServerError).send(responseData);
+									}
+									responseData.success = true;
+									responseData.msg = "Successfully updated order details";
+									return res.status(httpCodes.success).send(responseData);
+								});
 							});
-						});
-					}
+						}
+					});
 				});
-			});
+			}
 		} else {
 			return res.status(httpCodes.badRequest).send(responseData);
 		}

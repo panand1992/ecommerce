@@ -23,9 +23,13 @@ module.exports = {
 	editOrder: function(data, callback) {
 		var sql = "UPDATE OrderDetails SET Total = ?, OrderStatus = ?, UpdatedAt = now() WHERE ID = ?";
 		var values = [];
-		console.log(data);
-        values.push(data.total);
-        values.push(1);
+		if(data.payment) {
+			sql = "UPDATE OrderDetails SET OrderStatus = ?, UpdatedAt = now() WHERE ID = ?"
+			values.push(2);
+		} else {
+			values.push(data.total);
+			values.push(1);
+		}
 		values.push(data.orderId);
 		sqlConnection.executeQuery(sql, values, function(err, result) {
 			callback(err, result);

@@ -1,9 +1,11 @@
 import { takeLatest, all, put } from 'redux-saga/effects';
-import { USER_LOGIN, SET_LOGIN_STATE, USER_SIGNUP, SET_AUTH_ERROR_MSG, FETCH_CATEGORIES,
+import {
+	USER_LOGIN, SET_LOGIN_STATE, USER_SIGNUP, SET_AUTH_ERROR_MSG, FETCH_CATEGORIES,
 	SET_CATEGORY_LIST, FETCH_PRODUCTS, FETCH_PRODUCT_DETAILS, SET_PRODUCT_LIST, SET_PRODUCT_DETAILS,
 	FETCH_VENDOR_DETAILS, SET_VENDOR_DETAILS, ADD_PRODUCT, SET_ADD_PRODUCT_LOADING,
 	SET_ADD_PRODUCT_SUCCESS, SET_ADD_PRODUCT_ERROR_MSG, ADD_TO_CART, SET_ADD_TO_CART_LOADING,
-	SET_ADD_TO_CART_ERROR_MSG, FETCH_ORDER_DETAILS, SET_ORDER_DETAILS, EDIT_ORDER} from './../constants/app';
+	SET_ADD_TO_CART_ERROR_MSG, FETCH_ORDER_DETAILS, SET_ORDER_DETAILS, EDIT_ORDER, SET_CONFIRM_PAYMENT_LOADING, SET_CONFIRM_PAYMENT_SUCCESS, SET_CONFIRM_PAYMENT_ERROR_MSG
+} from './../constants/app';
 
 function* userLogin(action) {
 	const { data } = action;
@@ -19,11 +21,11 @@ function* userLogin(action) {
 		});
 		const result = yield responseBody.json();
 		yield put({ type: SET_LOGIN_STATE, data: result.success });
-		if(result.success) {
+		if (result.success) {
 			localStorage.setItem('userId', result.data.userId);
 			localStorage.setItem('username', result.data.username);
 			localStorage.setItem('userType', result.data.userType);
-			if(result.data.userType == 2) {
+			if (result.data.userType == 2) {
 				navigate('/vendor', { replace: false });
 			}
 			yield put({ type: SET_AUTH_ERROR_MSG, data: '' });
@@ -51,11 +53,11 @@ function* userSignup(action) {
 		});
 		const result = yield responseBody.json();
 		yield put({ type: SET_LOGIN_STATE, data: result.success });
-		if(result.success) {
+		if (result.success) {
 			localStorage.setItem('userId', result.data.userId);
 			localStorage.setItem('username', result.data.username);
 			localStorage.setItem('userType', result.data.userType);
-			if(result.data.userType == 2) {
+			if (result.data.userType == 2) {
 				navigate('/vendor', { replace: false });
 			}
 			yield put({ type: SET_AUTH_ERROR_MSG, data: '' });
@@ -80,7 +82,7 @@ function* fetchCategories(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
+		if (result.success) {
 			yield put({ type: SET_CATEGORY_LIST, data: result.categories });
 		} else {
 			yield put({ type: SET_CATEGORY_LIST, data: [] });
@@ -101,7 +103,7 @@ function* fetchProducts(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
+		if (result.success) {
 			yield put({ type: SET_PRODUCT_LIST, data: result.products });
 		} else {
 			yield put({ type: SET_PRODUCT_LIST, data: [] });
@@ -122,7 +124,7 @@ function* fetchProductDetails(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
+		if (result.success) {
 			yield put({ type: SET_PRODUCT_DETAILS, data: result.productDetails });
 		} else {
 			yield put({ type: SET_PRODUCT_DETAILS, data: {} });
@@ -143,7 +145,7 @@ function* fetchVendorDetails(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
+		if (result.success) {
 			yield put({ type: SET_VENDOR_DETAILS, data: result.vendorDetails });
 		} else {
 			yield put({ type: SET_VENDOR_DETAILS, data: {} });
@@ -167,7 +169,7 @@ function* addProduct(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
+		if (result.success) {
 			yield put({ type: SET_ADD_PRODUCT_SUCCESS, data: true });
 			yield put({ type: SET_ADD_PRODUCT_ERROR_MSG, data: '' });
 		} else {
@@ -197,7 +199,7 @@ function* addToCart(action) {
 			body: JSON.stringify(userData)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
+		if (result.success) {
 			yield put({ type: SET_ADD_TO_CART_ERROR_MSG, data: '' });
 			navigate('/cart', { replace: false });
 		} else {
@@ -222,8 +224,8 @@ function* fetchOrderDetails(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
-			yield put({ type: SET_ORDER_DETAILS, data: result.orderDetails });
+		if (result.success) {
+			yield put({ type: SET_ORDER_DETAILS, data:  result.orderDetails ? result.orderDetails : {} });
 		} else {
 			yield put({ type: SET_ORDER_DETAILS, data: {} });
 		}
@@ -234,7 +236,11 @@ function* fetchOrderDetails(action) {
 
 function* editOrder(action) {
 	const { data } = action;
-
+	if (data.payment) {
+		yield put({ type: SET_CONFIRM_PAYMENT_LOADING, data: true });
+		yield put({ type: SET_CONFIRM_PAYMENT_SUCCESS, data: false });
+		yield put({ type: SET_CONFIRM_PAYMENT_ERROR_MSG, data: '' });
+	}
 	try {
 		const responseBody = yield fetch("/api/v1/order/edit", {
 			method: 'POST',
@@ -244,16 +250,33 @@ function* editOrder(action) {
 			body: JSON.stringify(data)
 		});
 		const result = yield responseBody.json();
-		if(result.success) {
-			yield put({ type: FETCH_ORDER_DETAILS, data: { userId: localStorage.getItem('userId') } })
+		if (result.success) {
+			if (data.payment) {
+				yield put({ type: SET_CONFIRM_PAYMENT_SUCCESS, data: true });
+				yield put({ type: SET_CONFIRM_PAYMENT_ERROR_MSG, data: '' });
+				yield put({ type: SET_CONFIRM_PAYMENT_LOADING, data: false });
+			} else {
+				yield put({ type: FETCH_ORDER_DETAILS, data: { userId: localStorage.getItem('userId') } })
+			}
+		} else {
+			if(data.payment) {
+				yield put({ type: SET_CONFIRM_PAYMENT_SUCCESS, data: false });
+				yield put({ type: SET_CONFIRM_PAYMENT_ERROR_MSG, data: result.msg });
+				yield put({ type: SET_CONFIRM_PAYMENT_LOADING, data: false });
+			}
 		}
 	} catch (e) {
 		console.log(e);
+		if (data.payment) {
+			yield put({ type: SET_CONFIRM_PAYMENT_LOADING, data: false });
+			yield put({ type: SET_CONFIRM_PAYMENT_SUCCESS, data: false });
+			yield put({ type: SET_CONFIRM_PAYMENT_ERROR_MSG, data: 'Error in confirming payment' });
+		}
 	}
 }
 
 export default function* appSaga() {
-    yield all([yield takeLatest(USER_LOGIN, userLogin)]);
+	yield all([yield takeLatest(USER_LOGIN, userLogin)]);
 	yield all([yield takeLatest(USER_SIGNUP, userSignup)]);
 	yield all([yield takeLatest(FETCH_CATEGORIES, fetchCategories)]);
 	yield all([yield takeLatest(FETCH_PRODUCTS, fetchProducts)]);

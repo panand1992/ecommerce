@@ -13,7 +13,10 @@ import {
 	SET_ADD_PRODUCT_ERROR_MSG,
 	SET_ADD_TO_CART_LOADING,
 	SET_ADD_TO_CART_ERROR_MSG,
-	SET_ORDER_DETAILS
+	SET_ORDER_DETAILS,
+	SET_CONFIRM_PAYMENT_LOADING,
+	SET_CONFIRM_PAYMENT_SUCCESS,
+	SET_CONFIRM_PAYMENT_ERROR_MSG
 } from './../constants/app';
 
 const initialState = fromJS({
@@ -28,11 +31,13 @@ const initialState = fromJS({
 	addProductErrorMsg: '',
 	addToCartLoading: false,
 	addToCartErrorMsg: '',
-	orderDetails: {}
+	orderDetails: {},
+	confirmPaymentLoading: false,
+	confirmPaymentSuccess: false,
+	confirmPaymentErrorMsg: '',
 });
 
 const AppReducer = (state = initialState, action) => {
-	console.log(action);
 	switch (action.type) {
 		case SET_LOGIN_STATE:
 			return state
@@ -70,6 +75,15 @@ const AppReducer = (state = initialState, action) => {
 		case SET_ORDER_DETAILS:
 			return state
 				.set('orderDetails', fromJS(action.data));
+		case SET_CONFIRM_PAYMENT_LOADING:
+			return state
+				.set('confirmPaymentLoading', fromJS(action.data));
+		case SET_CONFIRM_PAYMENT_SUCCESS:
+			return state
+				.set('confirmPaymentSuccess', fromJS(action.data));
+		case SET_CONFIRM_PAYMENT_ERROR_MSG:
+			return state
+				.set('confirmPaymentErrorMsg', fromJS(action.data));
 		default:
 			return state;
 	}
