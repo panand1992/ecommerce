@@ -2,9 +2,17 @@ const sqlConnection = require("../services/sqlConnection");
 
 module.exports = {
 	listProducts: function(data, callback) {
-		var sql = "SELECT ID AS productId, Name AS name, Price AS price FROM Products WHERE CategoryId = ?";
+		var sql = "SELECT ID AS productId, Name AS name, Price AS price FROM Products";
 		var values = [];
-        values.push(data.categoryId);
+		if(data.categoryId) {
+			sql += " WHERE CategoryId = ?"
+			values.push(data.categoryId);
+			if(data.query) {
+				sql += " AND LOCATE('" + data.query + "', Name)";
+			}
+		} else if(data.query) {
+			sql += " WHERE LOCATE('" + data.query + "', Name)";
+		}
 		sqlConnection.executeQuery(sql, values, function(err, result) {
 			callback(err, result);
 		});
@@ -25,8 +33,11 @@ module.exports = {
 	},
 
 	getProductDetails: function(data, callback) {
-		var sql = "SELECT Name AS name, Price AS price, Description AS description  FROM Products WHERE ID = ? LIMIT 1";
+		var sql = "SELECT p.Name AS name, p.Price AS price, p.Description AS description, if((SELECT COUNT(*) "
+			+ "FROM OrderDetails AS od LEFT JOIN OrderItems AS oi ON oi.OrderID = od.ID WHERE oi.ProductID = p.ID"
+			+ "  AND od.UserID = ?) > 0, 1, 0) AS addedToCart FROM Products AS p WHERE p.ID = ? LIMIT 1";
 		var values = [];
+		values.push(data.userId);
         values.push(data.productId);
 		sqlConnection.executeQuery(sql, values, function(err, result) {
 			callback(err, result);

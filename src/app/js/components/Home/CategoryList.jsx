@@ -14,6 +14,9 @@ function CategoryList(props) {
         categoryList.length > 0 && (
             <>
                 <div className="category-list">
+                    <CategoryItem
+                        categoryName="All Products"
+                    />
                     {
                         categoryList.map((category) => (
                             <CategoryItem

@@ -14,7 +14,7 @@ router.post("/product/all", productController.listProducts);
 router.post("/product/add", productController.addProduct);
 router.post("/product/details", productController.getProductDetails);
 router.post("/order/add", orderController.createOrder);
-router.post("/order/detail", orderController.getOrderDetails);
+router.post("/order/details", orderController.getOrderDetails);
 router.post("/order/edit", orderController.editOrder);
 
 module.exports = router;

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
 function Login(props) {
-	const { login, changeFormType, authErrorMsg, navigate } = props
+	const { login, changeFormType, authErrorMsg, navigate, updateAuthErrorMsg } = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
 	const loginFn = () => {
 		if (username === "") {
-			alert("email empty");
+			updateAuthErrorMsg("Username should not be empty");
 		} else if (password === "") {
-			alert("password empty");
+			updateAuthErrorMsg("Password should not be empty");
 		} else {
 			const data = {
 				userData : {
@@ -18,16 +18,18 @@ function Login(props) {
 				},
 				navigate
 			};
-
+			
 			login(data);
 		}
 	}
 
 	const updateUsername = (e) => {
+		updateAuthErrorMsg("");
 		setUsername(e.target.value);
 	}
 
 	const updatePassword = (e) => {
+		updateAuthErrorMsg("");
 		setPassword(e.target.value);
 	}
 

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 function CategoryItem(props) {
     const { categoryName, categoryId } = props;
-    console.log(categoryName);
+    console.log(props);
 
     return(
         <div className="category-item">
-            <Link to={`/products?categoryId=${btoa(categoryId)}`}>{categoryName}</Link>
+            <Link to={`/products${categoryId ? `?categoryId=${btoa(categoryId)}` : ''}`}>{categoryName}</Link>
         </div>
     )
 }

@@ -10,7 +10,10 @@ import {
 	SET_VENDOR_DETAILS,
 	SET_ADD_PRODUCT_SUCCESS,
 	SET_ADD_PRODUCT_LOADING,
-	SET_ADD_PRODUCT_ERROR_MSG
+	SET_ADD_PRODUCT_ERROR_MSG,
+	SET_ADD_TO_CART_LOADING,
+	SET_ADD_TO_CART_ERROR_MSG,
+	SET_ORDER_DETAILS
 } from './../constants/app';
 
 const initialState = fromJS({
@@ -22,10 +25,14 @@ const initialState = fromJS({
 	vendorDetails: {},
 	addProductLoading: false,
 	addProductSuccess: false,
-	addProductErrorMsg: ''
+	addProductErrorMsg: '',
+	addToCartLoading: false,
+	addToCartErrorMsg: '',
+	orderDetails: {}
 });
 
 const AppReducer = (state = initialState, action) => {
+	console.log(action);
 	switch (action.type) {
 		case SET_LOGIN_STATE:
 			return state
@@ -54,6 +61,15 @@ const AppReducer = (state = initialState, action) => {
 		case SET_ADD_PRODUCT_ERROR_MSG:
 			return state
 				.set('addProductErrorMsg', fromJS(action.data));
+		case SET_ADD_TO_CART_LOADING:
+			return state
+				.set('addToCartLoading', fromJS(action.data));
+		case SET_ADD_TO_CART_ERROR_MSG:
+			return state
+				.set('addToCartErrorMsg', fromJS(action.data));
+		case SET_ORDER_DETAILS:
+			return state
+				.set('orderDetails', fromJS(action.data));
 		default:
 			return state;
 	}

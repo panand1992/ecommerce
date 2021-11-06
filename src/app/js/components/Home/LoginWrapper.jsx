@@ -8,7 +8,7 @@ import "../../../styles/login.scss";
 
 function LoginWrapper(props) {
     const navigate = useNavigate();
-	const { login, signup, authErrorMsg } = props;
+	const { login, signup, authErrorMsg, updateAuthErrorMsg } = props;
 	const [currentFormType, setCurrentFormType] = useState('login');
 
     const changeFormType = (val) => {
@@ -24,6 +24,7 @@ function LoginWrapper(props) {
                         changeFormType={changeFormType}
                         authErrorMsg={authErrorMsg}
                         navigate={navigate}
+                        updateAuthErrorMsg={updateAuthErrorMsg}
                     />
                 )
             }
@@ -33,6 +34,7 @@ function LoginWrapper(props) {
                         signup={signup}
                         changeFormType={changeFormType}
                         authErrorMsg={authErrorMsg}
+                        updateAuthErrorMsg={updateAuthErrorMsg}
                     />
                 )
             }
@@ -43,6 +45,7 @@ function LoginWrapper(props) {
                         changeFormType={changeFormType}
                         authErrorMsg={authErrorMsg}
                         navigate={navigate}
+                        updateAuthErrorMsg={updateAuthErrorMsg}
                     />
                 )
             }

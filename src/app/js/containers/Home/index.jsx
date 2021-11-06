@@ -7,11 +7,11 @@ import CategoryList from '../../components/Home/CategoryList.jsx';
 import LoginWrapper from '../../components/Home/LoginWrapper.jsx';
 import { getLoginState, getAuthErrorMsg, getCategoryList } from './../../selectors/app';
 import { login as loginRequest, signup as signupRequest, logout as logoutRequest,
-	fetchCategories as fetchCategoriesRequest } from './../../actions/app';
+	fetchCategories as fetchCategoriesRequest, updateAuthErrorMsg as updateAuthErrorMsgRequest } from './../../actions/app';
 import "../../../styles/home.scss";
 
 function Home(props) {
-	const { login, signup, isLoggedIn, authErrorMsg, logout, fetchCategories, categoryList } = props;
+	const { login, signup, isLoggedIn, authErrorMsg, logout, fetchCategories, categoryList, updateAuthErrorMsg } = props;
 
 	return (
 		<div id="homePage">
@@ -33,6 +33,7 @@ function Home(props) {
 								login={login}
 								signup={signup}
 								authErrorMsg={authErrorMsg}
+								updateAuthErrorMsg={updateAuthErrorMsg}
 							/>
 						)
 					}
@@ -46,7 +47,8 @@ const mapDispatchToProps = (dispatch) => ({
 	login: (data) => dispatch(loginRequest(data)),
 	signup: (data) => dispatch(signupRequest(data)),
 	logout: () => dispatch(logoutRequest()),
-	fetchCategories: () => dispatch(fetchCategoriesRequest())
+	fetchCategories: () => dispatch(fetchCategoriesRequest()),
+	updateAuthErrorMsg: (data) => dispatch(updateAuthErrorMsgRequest(data))
 });
 
 const mapStateToProps = createStructuredSelector({

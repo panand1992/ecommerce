@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 import Header from '../../components/Common/Header.jsx';
 import Sidebar from "../../components/ProductList/Sidebar.jsx";
@@ -18,19 +18,21 @@ function useQuery() {
 }
 
 function ProductList(props) {
+	const navigate = useNavigate();
 	const { fetchCategories, categoryList, isLoggedIn, logout, productList, fetchProducts } = props;
 	const [categoryName, setCategoryName] = useState('');
 	const currentCategoryData = useQuery();
 	const currentCategory = atob(currentCategoryData.get('categoryId'));
 
     useEffect(() => {
-		const data = {
-			categoryId: currentCategory
-		}
-
+		const data = {};
 		if(categoryList.length === 0) {
 			fetchCategories();
 		}
+
+		if(currentCategoryData.get('categoryId')) {
+			data.categoryId = currentCategory;
+		}	
 
         fetchProducts(data);
     }, [currentCategory]);
@@ -40,9 +42,31 @@ function ProductList(props) {
 			const currentObj = categoryList.find(item => {
 				return item.categoryId == currentCategory
 			});
-			setCategoryName(currentObj.name);
+
+			if(currentObj) {
+				setCategoryName(currentObj.name);
+			}
 		}
 	}, [categoryList, currentCategory]);
+
+	const clearFilter = () => {
+		const data = {};
+		setCategoryName('');
+		fetchProducts(data);
+		navigate('/products', { replace: false });
+	}
+
+	const searchProduct = (val) => {
+		const data = {
+			query: val
+		};
+
+		if(currentCategoryData.get('categoryId')) {
+			data.categoryId = currentCategory;
+		}
+	
+        fetchProducts(data);
+	}
 
 	return (
 		<div id="productListPage">
@@ -53,10 +77,15 @@ function ProductList(props) {
 			<div className="container">
 				<div className="row">
 					<h2 className="product-list-title text-center">
-						{categoryList.length > 0 && categoryName}
+						{categoryName ? categoryName : 'All Products'}
 					</h2>
 					<div className="product-list-wrapper">
-						<Sidebar categoryList={categoryList} currentCategory={currentCategory} />
+						<Sidebar
+							categoryList={categoryList}
+							currentCategory={currentCategory}
+							clearFilter={clearFilter}
+							searchProduct={searchProduct}
+						/>
 						<div className="product-list-box">
 							{
 								productList.length > 0 ? productList.map((product) => (

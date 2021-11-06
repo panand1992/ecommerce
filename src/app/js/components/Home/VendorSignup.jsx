@@ -1,28 +1,31 @@
 import React, { useState } from "react";
 
 function Signup(props) {
-	const { signup, changeFormType, authErrorMsg } = props
+	const { signup, changeFormType, authErrorMsg, navigate, updateAuthErrorMsg } = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-    const [gstin, setGstin] = useState('');
+	const [gstin, setGstin] = useState('');
 	const [pan, setPan] = useState('');
 
 	const signupFn = () => {
 		if (username === "") {
-			alert("email empty");
+			updateAuthErrorMsg("Email should not be empty");
 		} else if (password === "") {
-			alert("password empty");
+			updateAuthErrorMsg("Password should not be empty");
 		} else if (gstin === "") {
-			alert("GSTIN empty");
+			updateAuthErrorMsg("GSTIN should not be empty");
 		} else if (pan === "") {
-			alert("PAN empty");
+			updateAuthErrorMsg("PAN should not be empty");
 		} else {
 			const data = {
-				username: username,
-				password: password,
-                gstin: gstin,
-                pan: pan,
-				userType: 'vendor'
+				userData: {
+					username: username,
+					password: password,
+					gstin: gstin,
+					pan: pan,
+					userType: 'vendor'
+				},
+				navigate
 			};
 
 			signup(data);
@@ -30,18 +33,22 @@ function Signup(props) {
 	}
 
 	const updateUsername = (e) => {
+		updateAuthErrorMsg("");
 		setUsername(e.target.value);
 	}
 
 	const updatePassword = (e) => {
+		updateAuthErrorMsg("");
 		setPassword(e.target.value);
 	}
 
-    const updateGstin = (e) => {
+	const updateGstin = (e) => {
+		updateAuthErrorMsg("");
 		setGstin(e.target.value);
 	}
 
 	const updatePan = (e) => {
+		updateAuthErrorMsg("");
 		setPan(e.target.value);
 	}
 
@@ -66,7 +73,7 @@ function Signup(props) {
 					onChange={updatePassword}
 				/>
 			</div>
-            <div className="form-group">
+			<div className="form-group">
 				<input
 					type="password"
 					className="form-control"
@@ -75,7 +82,7 @@ function Signup(props) {
 					onChange={updateGstin}
 				/>
 			</div>
-            <div className="form-group">
+			<div className="form-group">
 				<input
 					type="password"
 					className="form-control"
@@ -93,7 +100,7 @@ function Signup(props) {
 				/>
 			</div>
 			<div className="login-btn" onClick={() => changeFormType('login')}>Already have an Account ? Login</div>
-            <div className="login-btn" onClick={() => changeFormType('signup')}>Want to shop ? Signup as User</div>
+			<div className="login-btn" onClick={() => changeFormType('signup')}>Want to shop ? Signup as User</div>
 			<div className="auth-error-msg">{authErrorMsg}</div>
 		</>
 	)

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
 function Signup(props) {
-	const { signup, changeFormType, authErrorMsg } = props
+	const { signup, changeFormType, authErrorMsg, updateAuthErrorMsg } = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
 	const signupFn = () => {
 		if (username === "") {
-			alert("email empty");
+			updateAuthErrorMsg("Email should not be empty");
 		} else if (password === "") {
-			alert("password empty");
+			updateAuthErrorMsg("Password should not be empty");
 		} else {
 			const data = {
 				username: username,
@@ -22,10 +22,12 @@ function Signup(props) {
 	}
 
 	const updateUsername = (e) => {
+		updateAuthErrorMsg("");
 		setUsername(e.target.value);
 	}
 
 	const updatePassword = (e) => {
+		updateAuthErrorMsg("");
 		setPassword(e.target.value);
 	}
 

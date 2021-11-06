@@ -6,6 +6,7 @@ import "../../../styles/header.scss";
 function Header(props) {
 	const { isLoggedIn, logout } = props;
 	const username = localStorage.getItem("username");
+	const userType = localStorage.getItem("userType");
 
 	const logoutUser = () => {
 		localStorage.removeItem('userId');
@@ -26,6 +27,12 @@ function Header(props) {
 						{
 							isLoggedIn && (
 								<div className="user-actions">
+									{
+										userType == 2 && (
+											<Link to={"/vendor"}>Vendor Dashboard</Link>
+										)
+									}
+									<Link to={"/cart"}>Cart</Link>
 									<div className="user-intro">Hi {username}</div>
 									<div className="logout-btn" onClick={logoutUser}>Logout</div>
 								</div>

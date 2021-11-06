@@ -11,7 +11,6 @@
             flex-direction: column;
             flex: 1;
             margin-right: 50px;
-            background-color: #dff9fb;
             a {
                 display: flex;
                 text-decoration: none;
@@ -19,8 +18,10 @@
                 font-size: 16px;
                 color: #000;
                 border-bottom: 1px solid #95afc0;
-                &:last-child {
+                background-color: #dff9fb;
+                &:nth-child(7) {
                     border-bottom: none;
+                    margin-bottom: 20px;
                 }
 
                 &:hover, &.active {
@@ -28,10 +29,18 @@
                     font-weight: bold;
                 }
             }
+            .sidebar-title {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            .sidebar-search {
+                margin-bottom: 20px;
+            }
+            .clear-filter {
+                margin-top: 20px;
+            }
         }
         .product-list-box {
-            display: flex;
-            flex-direction: row;
             flex: 4;
 
             .no-product {

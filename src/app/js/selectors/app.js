@@ -20,3 +20,9 @@ export const getAddProductSuccess = () => createSelector(selectApp, (appState) =
 export const getAddProductErrorMsg = () => createSelector(selectApp, (appState) => appState.get('addProductErrorMsg'));
 
 export const getProductDetails = () => createSelector(selectApp, (appState) => appState.get('productDetails').toJS());
+
+export const getAddToCartLoading = () => createSelector(selectApp, (appState) => appState.get('addToCartLoading'));
+
+export const getAddToCartErrorMsg = () => createSelector(selectApp, (appState) => appState.get('addToCartErrorMsg'));
+
+export const getOrderDetails = () => createSelector(selectApp, (appState) => appState.get('orderDetails').toJS());

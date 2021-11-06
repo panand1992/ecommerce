@@ -10,20 +10,16 @@ module.exports = {
 			success: false,
 			msg: "Invalid params for fetching products"
 		};
-		if (data.categoryId) {
-			Product.listProducts(data, function (err, result) {
-				if (err) {
-					responseData.msg = "Error in fetching products";
-					return res.status(httpCodes.internalServerError).send(responseData);
-				}
-				responseData.success = true;
-				responseData.msg ="Successfully fetched products";
-				responseData.products = result;
-				return res.status(httpCodes.success).send(responseData);
-			});
-		} else {
-			return res.status(httpCodes.badRequest).send(responseData);
-		}
+		Product.listProducts(data, function (err, result) {
+			if (err) {
+				responseData.msg = "Error in fetching products";
+				return res.status(httpCodes.internalServerError).send(responseData);
+			}
+			responseData.success = true;
+			responseData.msg ="Successfully fetched products";
+			responseData.products = result;
+			return res.status(httpCodes.success).send(responseData);
+		});
 	},
 
 	addProduct: function (req, res) {
@@ -53,7 +49,7 @@ module.exports = {
 			success: false,
 			msg: "Invalid params for fetching product details"
 		};
-		if (data.productId) {
+		if (data.productId && data.userId) {
 			Product.getProductDetails(data, function (err, result) {
 				if (err) {
 					responseData.msg = "Error in fetching product details";
@@ -61,11 +57,7 @@ module.exports = {
 				}
 				responseData.success = true;
 				responseData.msg ="Successfully fetched product details";
-				responseData.productDetails = {
-					name: result[0].name,
-					price: result[0].price,
-					description: result[0].description
-				}
+				responseData.productDetails = result[0];
 				return res.status(httpCodes.success).send(responseData);
 			});
 		} else {

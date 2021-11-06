@@ -7,6 +7,8 @@ const VendorHome = lazy(() => import("./containers/VendorHome/index.jsx"));
 const VendorDetails = lazy(() => import("./containers/VendorDetails/index.jsx"));
 const ProductDetails = lazy(() => import("./containers/ProductDetails/index.jsx"));
 const AddProduct = lazy(() => import("./containers/AddProduct/index.jsx"));
+const Cart = lazy(() => import("./containers/Cart/index.jsx"));
+const Checkout = lazy(() => import("./containers/Checkout/index.jsx"));
 
 function Customrouter() {
 	return (
@@ -63,6 +65,24 @@ function Customrouter() {
 					element={
 						<Suspense fallback={<div className="loader"></div>}>
 							<ProductDetails />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/cart"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<Cart />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/checkout"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<Checkout />
 						</Suspense>
 					}
 				/>
