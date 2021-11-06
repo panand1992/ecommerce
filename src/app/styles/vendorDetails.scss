@@ -1,0 +1,30 @@
+#vendorDetailsPage {
+    .vendor-details-wrapper {
+        display: flex;
+        flex-direction: row;
+        .vendor-details-box {
+            display: flex;
+            flex-direction: column;
+            flex: 38;
+            padding: 50px;
+            .vendor-details-title {
+                font-size: 32px;
+            }
+            .vendor-details-data {
+                margin-top: 20px;
+                width: 350px;
+                .vendor-details-key {
+                    margin-top: 32px;
+                    font-size: 16px;
+                }
+                .vendor-details-val {
+                    margin-top: 5px;
+                    border: 1px solid #ccc;
+                    background-color: #f6f6f6;
+                    border-radius: 3px;
+                    padding: 5px 10px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,77 @@
+#productListPage {
+    .product-list-title {
+        font-size: 32px;
+        margin: 60px 0;
+    }
+    .product-list-wrapper {
+        display: flex;
+        flex-direction: row;
+        .product-list-sidebar {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-right: 50px;
+            background-color: #dff9fb;
+            a {
+                display: flex;
+                text-decoration: none;
+                padding: 20px 30px;
+                font-size: 16px;
+                color: #000;
+                border-bottom: 1px solid #95afc0;
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover, &.active {
+                    background-color: #c7ecee;
+                    font-weight: bold;
+                }
+            }
+        }
+        .product-list-box {
+            display: flex;
+            flex-direction: row;
+            flex: 4;
+
+            .no-product {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .product-item {
+                width: 30%;
+                display: inline-block;
+                margin-right: 5%;
+                margin-bottom: 30px;
+                box-shadow: 0px 1px 5px #ccc;
+                border-radius: 10px;
+                text-decoration: none;
+                .product-img {
+                    img {
+                        max-width: 100%;
+                    }
+                }
+                .product-name {
+                    text-align: center;
+                    font-size: 16px;
+                    color: #000;
+                    padding: 10px 0;
+                }
+                .product-price {
+                    text-align: center;
+                    color: #333;
+                    padding-bottom: 10px;
+                }
+
+                &:nth-child(2n+1) {
+                    margin-right: 0;
+                }
+
+                &:hover {
+                    box-shadow: 0px 1px 5px #999;
+                }
+            }
+        }
+    }
+}

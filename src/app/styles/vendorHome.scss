@@ -1,0 +1,12 @@
+#vendorHomePage {
+    .vendor-home-wrapper {
+        display: flex;
+        flex-direction: row;
+        .vendor-home-box {
+            display: flex;
+            flex: 38;
+            padding: 50px;
+            font-size: 40px;
+        }
+    }
+}

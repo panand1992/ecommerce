@@ -5,18 +5,17 @@ import { createStructuredSelector } from 'reselect';
 import Header from '../../components/Common/Header.jsx';
 import CategoryList from '../../components/Home/CategoryList.jsx';
 import LoginWrapper from '../../components/Home/LoginWrapper.jsx';
-import { getLoginState, getUsername, getAuthErrorMsg, getCategoryList } from './../../selectors/app';
+import { getLoginState, getAuthErrorMsg, getCategoryList } from './../../selectors/app';
 import { login as loginRequest, signup as signupRequest, logout as logoutRequest,
 	fetchCategories as fetchCategoriesRequest } from './../../actions/app';
 import "../../../styles/home.scss";
 
 function Home(props) {
-	const { login, signup, isLoggedIn, username, authErrorMsg, logout, fetchCategories, categoryList } = props;
+	const { login, signup, isLoggedIn, authErrorMsg, logout, fetchCategories, categoryList } = props;
 
 	return (
 		<div id="homePage">
 			<Header
-				username={username}
 				isLoggedIn={isLoggedIn}
 				logout={logout}
 			/>
@@ -52,7 +51,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = createStructuredSelector({
 	isLoggedIn: getLoginState(),
-	username: getUsername(),
 	authErrorMsg: getAuthErrorMsg(),
 	categoryList: getCategoryList()
 });

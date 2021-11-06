@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const {
-	httpCodes
+	httpCodes, userType
 } = require("../constants/backendConfig");
 
 module.exports = {
@@ -41,18 +41,58 @@ module.exports = {
 			msg: "Invalid params for signup"
 		};
 		if (data.username && data.password && data.userType) {
-			User.signup(data, function (err, result) {
+			User.getUserDetails(data, function(err, result){
 				if (err) {
 					responseData.msg = "Error in signup";
 					return res.status(httpCodes.internalServerError).send(responseData);
 				}
-				responseData.success = true;
-				responseData.data = {
-					username: data.username,
-					userId: result.insertId,
-					userType: data.userType
-				};
-				return res.status(httpCodes.success).send(responseData);
+				if(result.length > 0) {
+					responseData.msg = "User already exists";
+					return res.status(httpCodes.internalServerError).send(responseData);
+				} else {
+					if(data.userType == 'vendor') {
+						if(data.gstin && data.pan) {
+							User.signup(data, function (err1, result1) {
+								if (err1) {
+									responseData.msg = "Error in signup";
+									return res.status(httpCodes.internalServerError).send(responseData);
+								}
+								data.vendorId = result1.insertId;
+								User.addVendorDetails(data, function(err2) {
+									if (err2) {
+										responseData.msg = "Error in signup";
+										return res.status(httpCodes.internalServerError).send(responseData);
+									}
+									responseData.success = true;
+									responseData.msg ="Successfully Signup Up";
+									responseData.data = {
+										username: data.username,
+										userId: result1.insertId,
+										userType: data.userType
+									};
+									return res.status(httpCodes.success).send(responseData);
+								});
+							});
+						} else {
+							return res.status(httpCodes.badRequest).send(responseData);
+						}
+					} else {
+						User.signup(data, function (err1, result1) {
+							if (err1) {
+								responseData.msg = "Error in signup";
+								return res.status(httpCodes.internalServerError).send(responseData);
+							}
+							responseData.success = true;
+							responseData.msg ="Successfully Signup Up";
+							responseData.data = {
+								username: data.username,
+								userId: result.insertId,
+								userType: data.userType
+							};
+							return res.status(httpCodes.success).send(responseData);
+						});
+					}
+				}
 			});
 		} else {
 			return res.status(httpCodes.badRequest).send(responseData);
@@ -60,6 +100,29 @@ module.exports = {
 	},
 
 	getVendorDetails: function (req, res) {
+		var data = req.body;
+		var responseData = {
+			success: false,
+			msg: "Invalid params for fetching vendor details"
+		};
+		if (data.userId) {
+			User.getVendorDetails(data, function (err, result) {
+				if (err) {
+					responseData.msg = "Error in fetching vendor details";
+					return res.status(httpCodes.internalServerError).send(responseData);
+				}
+				responseData.success = true;
+				responseData.msg ="Successfully fetched vendor details";
+				responseData.vendorDetails = {
+					username: result[0].username,
+					gstin: result[0].gstin,
+					pan: result[0].pan
+				};
+				return res.status(httpCodes.success).send(responseData);
+			});
+		} else {
+			return res.status(httpCodes.badRequest).send(responseData);
+		}
 	},
 
 	getVendorPayments: function (req, res) {

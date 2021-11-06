@@ -23,5 +23,35 @@ module.exports = {
 		sqlConnection.executeQuery(sql, values, function(err, result) {
 			callback(err, result);
 		});
+	},
+
+	getUserDetails: function(data, callback) {
+		var sql = "SELECT * FROM Users WHERE Username = ?";
+		var values = [];
+		values.push(data.username);
+		sqlConnection.executeQuery(sql, values, function(err, result) {
+			callback(err, result);
+		});
+	},
+
+	addVendorDetails: function(data, callback) {
+		var sql = "INSERT INTO VendorDetails (GSTIN, PAN, UserID, CreatedAt, UpdatedAt) VALUES (?, ?, ?, now(), now())";
+		var values = [];
+		values.push(data.gstin);
+		values.push(data.pan);
+		values.push(data.vendorId);
+		sqlConnection.executeQuery(sql, values, function(err, result) {
+			callback(err, result);
+		});
+	},
+
+	getVendorDetails: function(data, callback) {
+		var sql = "SELECT u.Username AS username, vd.GSTIN AS gstin, vd.PAN as pan FROM Users AS u LEFT JOIN "
+			+ "VendorDetails AS vd ON u.ID = vd.userID WHERE u.ID = ? LIMIT 1";
+		var values = [];
+		values.push(data.userId);
+		sqlConnection.executeQuery(sql, values, function(err, result) {
+			callback(err, result);
+		});
 	}
 };

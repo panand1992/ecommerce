@@ -1,0 +1,21 @@
+.vendor-sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 12;
+    a{
+        padding: 20px 30px;
+        text-decoration: none;
+        color: #130f40;
+        border-bottom: 1px solid #95afc0;
+        background-color: #c7ecee;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover, &.active {
+            font-weight: bold;
+            background-color: #95afc0;
+        }
+    }
+}

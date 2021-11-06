@@ -12,7 +12,7 @@ router.post("/user/vendor/payments", userController.getVendorPayments);
 router.post("/category/all", categoryController.listCategories);
 router.post("/product/all", productController.listProducts);
 router.post("/product/add", productController.addProduct);
-router.post("/product/detail", productController.getProductDetails);
+router.post("/product/details", productController.getProductDetails);
 router.post("/order/add", orderController.createOrder);
 router.post("/order/detail", orderController.getOrderDetails);
 router.post("/order/edit", orderController.editOrder);

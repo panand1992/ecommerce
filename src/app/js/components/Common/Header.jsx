@@ -1,15 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import "../../../styles/header.scss";
 
 function Header(props) {
-	const { username, isLoggedIn, logout } = props;
+	const { isLoggedIn, logout } = props;
+	const username = localStorage.getItem("username");
 
 	const logoutUser = () => {
 		localStorage.removeItem('userId');
 		localStorage.removeItem('username');
 		localStorage.removeItem('userType');
 		logout();
+		location.replace("/");
 	}
 
 	return (
@@ -17,7 +20,9 @@ function Header(props) {
 			<div className="container">
 				<div className="row">
 					<div className="header-wrapper">
-						<div className="logo">Ecommerce</div>
+						<div className="logo">
+							<Link to={"/"}>Ecommerce</Link>
+						</div>
 						{
 							isLoggedIn && (
 								<div className="user-actions">

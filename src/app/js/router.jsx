@@ -2,15 +2,71 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home = lazy(() => import("./containers/Home/index.jsx"));
+const ProductList = lazy(() => import("./containers/ProductList/index.jsx"));
+const VendorHome = lazy(() => import("./containers/VendorHome/index.jsx"));
+const VendorDetails = lazy(() => import("./containers/VendorDetails/index.jsx"));
+const ProductDetails = lazy(() => import("./containers/ProductDetails/index.jsx"));
+const AddProduct = lazy(() => import("./containers/AddProduct/index.jsx"));
 
 function Customrouter() {
 	return (
 		<Router>
-			<Suspense fallback={<div className="loader"></div>}>
-				<Routes>
-					<Route exact path="/" element={<Home />} />
-				</Routes>
-			</Suspense>
+			<Routes>
+				<Route
+					exact
+					path="/"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<Home />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/vendor"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<VendorHome />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/vendor/details"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<VendorDetails />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/vendor/product/add"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<AddProduct />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/products"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<ProductList />
+						</Suspense>
+					}
+				/>
+				<Route
+					exact
+					path="/product/:productid/details"
+					element={
+						<Suspense fallback={<div className="loader"></div>}>
+							<ProductDetails />
+						</Suspense>
+					}
+				/>
+			</Routes>
 		</Router>
 	);
 }

@@ -1,0 +1,24 @@
+#addProductPage {
+    .add-product-wrapper {
+        display: flex;
+        flex-direction: row;
+        .add-product-box {
+            display: flex;
+            flex-direction: column;
+            flex: 38;
+            padding: 50px;
+            .add-product-title {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+            .add-product-success-msg {
+                color: #2ecc71;
+                margin-top: 20px;
+            }
+            .add-product-error-msg {
+                color: #e74c3c;
+                margin-top: 20px;
+            }
+        }
+    }
+}

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 
 function Login(props) {
-	const { login, changeFormType, authErrorMsg } = props
+	const { login, changeFormType, authErrorMsg, navigate } = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
-	const loginFn = (val) => {
+	const loginFn = () => {
 		if (username === "") {
 			alert("email empty");
 		} else if (password === "") {
 			alert("password empty");
 		} else {
 			const data = {
-				username: username,
-				password: password,
-				userType: val
+				userData : {
+					username: username,
+					password: password
+				},
+				navigate
 			};
 
 			login(data);
@@ -37,7 +39,6 @@ function Login(props) {
 					type="text"
 					className="form-control"
 					placeholder="Username"
-					id="loginUsername"
 					value={username}
 					onChange={updateUsername}
 				/>
@@ -47,7 +48,6 @@ function Login(props) {
 					type="password"
 					className="form-control"
 					placeholder="Password"
-					id="loginPwd"
 					value={password}
 					onChange={updatePassword}
 				/>
@@ -57,15 +57,7 @@ function Login(props) {
 					type="submit"
 					className="form-control btn btn-primary"
 					value="Log in as User"
-					onClick={() => loginFn('user')}
-				/>
-			</div>
-			<div className="form-group">
-				<input
-					type="submit"
-					className="form-control btn btn-default"
-					value="Log in as Vendor"
-					onClick={() => loginFn('vendor')}
+					onClick={loginFn}
 				/>
 			</div>
 			<div className="signup-btn" onClick={() => changeFormType('signup')}>Dont have an Account ? Signup</div>
