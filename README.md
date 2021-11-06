@@ -1,11 +1,11 @@
 # Ecommerce
 
-##Prerequisites
+## Prerequisites
 
 Node and npm installed with latest version
 
 
-##Installation
+## Installation
 
 clone the repository
 
@@ -16,7 +16,7 @@ npm run build
 ```
 
 
-##Running the Application
+## Running the Application
 
 Go to http://localhost:3000
 
