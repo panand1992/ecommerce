@@ -68,6 +68,20 @@ function ProductList(props) {
         fetchProducts(data);
 	}
 
+	const filterProduct = (minPrice, maxPrice, searchQuery) => {
+		const data = {
+			query: searchQuery,
+			minPrice,
+			maxPrice,
+		};
+
+		if(currentCategoryData.get('categoryId')) {
+			data.categoryId = currentCategory;
+		}
+	
+        fetchProducts(data);
+	}
+
 	return (
 		<div id="productListPage">
 			<Header
@@ -85,6 +99,7 @@ function ProductList(props) {
 							currentCategory={currentCategory}
 							clearFilter={clearFilter}
 							searchProduct={searchProduct}
+							filterProduct={filterProduct}
 						/>
 						<div className="product-list-box">
 							{

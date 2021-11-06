@@ -9,7 +9,6 @@ module.exports = {
 				callback(err);
 			} else {
 				connection.query(sql, data, function (err1, results) {
-					console.log(err1);
 					connection.release();
 					callback(err1, results);
 				});

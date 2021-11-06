@@ -10,9 +10,29 @@ module.exports = {
 			if(data.query) {
 				sql += " AND LOCATE('" + data.query + "', Name)";
 			}
+			if(data.minPrice) {
+				sql += " AND Price >= " + parseInt(data.minPrice, 10);
+			}
+			if(data.maxPrice && parseInt(data.maxPrice, 10) > 0) {
+				sql += " AND Price <= " + parseInt(data.maxPrice, 10);
+			}
 		} else if(data.query) {
 			sql += " WHERE LOCATE('" + data.query + "', Name)";
+			if(data.minPrice) {
+				sql += " AND Price >= " + parseInt(data.minPrice, 10);
+			}
+			if(data.maxPrice && parseInt(data.maxPrice, 10) > 0) {
+				sql += " AND Price <= " + parseInt(data.maxPrice, 10);
+			}
+		} else if (data.minPrice) {
+			sql += " WHERE Price >= " + parseInt(data.minPrice, 10);
+			if(data.maxPrice && parseInt(data.maxPrice, 10) > 0) {
+				sql += " AND Price <= " + parseInt(data.maxPrice, 10);
+			}
+		} else if(data.maxPrice && parseInt(data.maxPrice, 10) > 0) {
+			sql += " WHERE Price <= " + parseInt(data.maxPrice, 10);
 		}
+		
 		sqlConnection.executeQuery(sql, values, function(err, result) {
 			callback(err, result);
 		});

@@ -8,7 +8,7 @@ module.exports = {
 		filename: "[name]-bundle.js",
 		publicPath: "/js/"
 	},
-	watch: true,
+	watch: false,
 	plugins: [new CleanWebpackPlugin()],
 	module: {
 		rules: [{
