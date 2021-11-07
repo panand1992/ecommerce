@@ -39,7 +39,7 @@ module.exports = {
 	getOrderDetails: function(data, callback) {
 		var sql = "SELECT od.ID AS orderId, od.Total AS total, p.ID AS productId, p.Name AS productName, p.price AS price, "
 			+ "oi.Quantity AS quantity FROM OrderDetails AS od LEFT JOIN OrderItems AS oi ON od.ID = oi.OrderID"
-			+ " LEFT JOIN Products AS p ON p.ID = oi.ProductID WHERE od.UserID = ? AND od.OrderStatus = 1 LIMIT 1";
+			+ " LEFT JOIN Products AS p ON p.ID = oi.ProductID WHERE od.UserID = ? AND od.OrderStatus = 1";
 		var values = [];
         values.push(data.userId);
 		sqlConnection.executeQuery(sql, values, function(err, result) {
