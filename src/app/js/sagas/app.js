@@ -43,6 +43,7 @@ function* userLogin(action) {
 function* userSignup(action) {
 	const { data } = action;
 	const { userData, navigate } = data;
+	console.log(data);
 	yield put({ type: SET_AUTH_ERROR_MSG, data: '' });
 	try {
 		const responseBody = yield fetch("/api/v1/user/signup", {

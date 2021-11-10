@@ -12,9 +12,11 @@ function Signup(props) {
 			updateAuthErrorMsg("Password should not be empty");
 		} else {
 			const data = {
-				username: username,
-				password: password,
-				userType: 'vendor'
+				userData: {
+					username: username,
+					password: password,
+					userType: 'user'
+				}
 			};
 
 			signup(data);

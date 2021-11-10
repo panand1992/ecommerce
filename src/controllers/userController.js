@@ -77,7 +77,7 @@ module.exports = {
 							return res.status(httpCodes.badRequest).send(responseData);
 						}
 					} else {
-						User.signup(data, function (err1, result1) {
+						User.signup(data, function (err1) {
 							if (err1) {
 								responseData.msg = "Error in signup";
 								return res.status(httpCodes.internalServerError).send(responseData);
