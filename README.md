@@ -18,13 +18,14 @@ npm run build
 
 ## Running the Application
 
-Go to http://localhost:3000
+```
+npm start
+```
 
 
 ## To reflect frontend code changes
 Stop the server
 ```
-npm run build
 npm start
 ```
 
