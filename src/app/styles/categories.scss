@@ -30,3 +30,9 @@
     font-size: 18px;
     text-align: center;
 }
+
+
+.category-item:hover {
+    box-shadow: 10px 10px 2px #999;
+    transform: scale(1.2);
+}
