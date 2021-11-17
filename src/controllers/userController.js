@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const signToken = require("../authn/signToken");
 const {
 	httpCodes, userType
 } = require("../constants/backendConfig");
@@ -27,6 +28,7 @@ module.exports = {
 					userId: result[0].UserId,
 					userType: result[0].UserType
 				};
+				signToken(res, responseData.data);
 				return res.status(httpCodes.success).send(responseData);
 			});
 		} else {
