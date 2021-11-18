@@ -1,4 +1,5 @@
 module.exports = {
+	secretKey: "37",
 	httpCodes: {
 		internalServerError: 500,
 		notFound: 404,

@@ -13,7 +13,7 @@ function Header(props) {
 		localStorage.removeItem('username');
 		localStorage.removeItem('userType');
 		logout();
-		location.replace("/");
+		location.replace("/?logout=true");
 	}
 
 	return (

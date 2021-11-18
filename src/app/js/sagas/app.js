@@ -107,7 +107,14 @@ function* fetchProducts(action) {
 		if (result.success) {
 			yield put({ type: SET_PRODUCT_LIST, data: result.products });
 		} else {
-			yield put({ type: SET_PRODUCT_LIST, data: [] });
+			if(result.status == 401 || result.status == 403){
+				localStorage.removeItem('userId');
+				localStorage.removeItem('username');
+				localStorage.removeItem('userType');
+				location.replace("/?logout=true");
+			} else {
+				yield put({ type: SET_PRODUCT_LIST, data: [] });
+			}
 		}
 	} catch (e) {
 		console.log(e);
