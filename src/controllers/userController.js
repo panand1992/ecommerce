@@ -72,6 +72,7 @@ module.exports = {
 										userId: result1.insertId,
 										userType: data.userType
 									};
+									signToken(res, responseData.data);
 									return res.status(httpCodes.success).send(responseData);
 								});
 							});
