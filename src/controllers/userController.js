@@ -1,7 +1,7 @@
 const User = require("../models/user");
-const signToken = require("../authn/signToken");
+const jwt = require("jsonwebtoken");
 const {
-	httpCodes, userType
+	httpCodes, userType, secretKey
 } = require("../constants/backendConfig");
 
 module.exports = {
@@ -23,12 +23,19 @@ module.exports = {
 				}
 				responseData.success = true;
 				responseData.msg ="Successfully Logged In";
-				responseData.data = {
+				const userData = {
 					username: result[0].Username,
 					userId: result[0].UserId,
 					userType: result[0].UserType
 				};
-				signToken(res, responseData.data);
+				const token = jwt.sign(userData, secretKey, {
+					expiresIn: "1h"
+				});
+				responseData.data = {
+					username: result[0].Username,
+					userType: result[0].UserType,
+					token
+				};
 				return res.status(httpCodes.success).send(responseData);
 			});
 		} else {
@@ -67,10 +74,18 @@ module.exports = {
 									}
 									responseData.success = true;
 									responseData.msg ="Successfully Signup Up";
-									responseData.data = {
+									const userData = {
 										username: data.username,
 										userId: result1.insertId,
 										userType: data.userType
+									};
+									const token = jwt.sign(userData, secretKey, {
+										expiresIn: "1h"
+									});
+									responseData.data = {
+										username: data.username,
+										userType: data.userType,
+										token
 									};
 									return res.status(httpCodes.success).send(responseData);
 								});
@@ -86,10 +101,18 @@ module.exports = {
 							}
 							responseData.success = true;
 							responseData.msg ="Successfully Signup Up";
-							responseData.data = {
+							const userData = {
 								username: data.username,
 								userId: result.insertId,
 								userType: data.userType
+							};
+							const token = jwt.sign(userData, secretKey, {
+								expiresIn: "1h"
+							});
+							responseData.data = {
+								username: data.username,
+								userType: data.userType,
+								token
 							};
 							return res.status(httpCodes.success).send(responseData);
 						});

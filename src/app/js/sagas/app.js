@@ -23,9 +23,8 @@ function* userLogin(action) {
 		const result = yield responseBody.json();
 		yield put({ type: SET_LOGIN_STATE, data: result.success });
 		if (result.success) {
-			localStorage.setItem('userId', result.data.userId);
+			localStorage.setItem('token', result.data.token);
 			localStorage.setItem('username', result.data.username);
-			localStorage.setItem('userType', result.data.userType);
 			if (result.data.userType == 2) {
 				navigate('/vendor', { replace: false });
 			}
@@ -55,9 +54,8 @@ function* userSignup(action) {
 		const result = yield responseBody.json();
 		yield put({ type: SET_LOGIN_STATE, data: result.success });
 		if (result.success) {
-			localStorage.setItem('userId', result.data.userId);
+			localStorage.setItem('token', result.data.token);
 			localStorage.setItem('username', result.data.username);
-			localStorage.setItem('userType', result.data.userType);
 			if (result.data.userType == 2) {
 				navigate('/vendor', { replace: false });
 			}
@@ -78,7 +76,8 @@ function* fetchCategories(action) {
 		const responseBody = yield fetch("/api/v1/category/all", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -99,7 +98,8 @@ function* fetchProducts(action) {
 		const responseBody = yield fetch("/api/v1/product/all", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -107,14 +107,7 @@ function* fetchProducts(action) {
 		if (result.success) {
 			yield put({ type: SET_PRODUCT_LIST, data: result.products });
 		} else {
-			if(result.status == 401 || result.status == 403){
-				localStorage.removeItem('userId');
-				localStorage.removeItem('username');
-				localStorage.removeItem('userType');
-				location.replace("/?logout=true");
-			} else {
-				yield put({ type: SET_PRODUCT_LIST, data: [] });
-			}
+			yield put({ type: SET_PRODUCT_LIST, data: [] });
 		}
 	} catch (e) {
 		console.log(e);
@@ -127,7 +120,8 @@ function* fetchProductDetails(action) {
 		const responseBody = yield fetch("/api/v1/product/details", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -148,7 +142,8 @@ function* fetchVendorDetails(action) {
 		const responseBody = yield fetch("/api/v1/user/vendor/details", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -172,7 +167,8 @@ function* addProduct(action) {
 		const responseBody = yield fetch("/api/v1/product/add", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -202,7 +198,8 @@ function* addToCart(action) {
 		const responseBody = yield fetch("/api/v1/order/add", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(userData)
 		});
@@ -227,7 +224,8 @@ function* fetchOrderDetails(action) {
 		const responseBody = yield fetch("/api/v1/order/details", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -253,7 +251,8 @@ function* editOrder(action) {
 		const responseBody = yield fetch("/api/v1/order/edit", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});
@@ -289,7 +288,8 @@ function* fetchVendorPayments(action) {
 		const responseBody = yield fetch("/api/v1/user/vendor/payments", {
 			method: 'POST',
 			headers: {
-				"Content-Type": "application/json;charset=UTF-8"
+				"Content-Type": "application/json;charset=UTF-8",
+				"AuthToken": localStorage.getItem("token")
 			},
 			body: JSON.stringify(data)
 		});

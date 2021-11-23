@@ -4,7 +4,8 @@ module.exports = {
 		internalServerError: 500,
 		notFound: 404,
 		success: 200,
-		badRequest: 400
+		badRequest: 400,
+		unauthorised: 401
 	},
 	httpColorCodes: {
 		internalServerError: 31,

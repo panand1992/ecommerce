@@ -9,11 +9,10 @@ function Header(props) {
 	const userType = localStorage.getItem("userType");
 
 	const logoutUser = () => {
-		localStorage.removeItem('userId');
+		localStorage.removeItem('token');
 		localStorage.removeItem('username');
-		localStorage.removeItem('userType');
 		logout();
-		location.replace("/?logout=true");
+		location.replace("/");
 	}
 
 	return (
