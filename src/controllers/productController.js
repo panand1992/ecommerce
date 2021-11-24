@@ -2,6 +2,7 @@ const Product = require("../models/product");
 const {
 	httpCodes
 } = require("../constants/backendConfig");
+const { filterProducts } = require("../services/utils");
 
 module.exports = {
 	listProducts: function (req, res) {
@@ -17,7 +18,7 @@ module.exports = {
 			}
 			responseData.success = true;
 			responseData.msg ="Successfully fetched products";
-			responseData.products = result;
+			responseData.products = filterProducts(result, data);
 			return res.status(httpCodes.success).send(responseData);
 		});
 	},
